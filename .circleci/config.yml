@@ -7,15 +7,16 @@ jobs:
   deploy_fargate:
     machine:
       docker_layer_caching: true # Docker Layer Caching
-      resource_class: arm.xlarge # Resource Class(ARM VM)
+      resource_class: arm.large # Resource Class(ARM VM)
       image: ubuntu-2004:current
     steps:
       - checkout
       - aws-ecr/build-and-push-image: # AWS ECR Orb
           assume-web-identity: true
+          new-profile-name: new-profile
           role-arn: ${AWS_ROLE_ARN}
           platform: linux/arm64
-          repo: tadashi-graviton-fargate-demo
+          repo: tadashi-fargate-demo
           tag: '${CIRCLE_SHA1}'
 
 workflows:
