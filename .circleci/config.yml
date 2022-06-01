@@ -37,3 +37,14 @@ jobs:
       - aws-ecr/push-image:
           repo: tadashi-fargate-demo
           tag: '${CIRCLE_SHA1}'
+
+workflows:
+  test_and_deploy: 
+    jobs:
+      - deploy_fargate:
+          filters:
+            branches:
+              only:
+                - main
+          context:
+            - aws-oidc-fargate
