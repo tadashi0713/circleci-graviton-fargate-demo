@@ -1,0 +1,39 @@
+version: 2.1
+
+orbs:
+  aws-cli: circleci/aws-cli@3.1.1
+  aws-ecr: circleci/aws-ecr@7.3.0
+
+jobs:
+  deploy_fargate:
+    machine:
+      docker_layer_caching: true # Docker Layer Caching
+      resource_class: arm.large # Resource Class(ARM VM)
+      image: ubuntu-2004:2022.04.1
+    steps:
+      - checkout
+      # - run:
+      #     name: Get creential via OIDC
+      #     command: |
+      #       aws_sts_credentials=$(aws sts assume-role-with-web-identity \
+      #         --role-arn ${AWS_ROLE_ARN} \
+      #         --web-identity-token ${CIRCLE_OIDC_TOKEN} \
+      #         --role-session-name "circleci-oidc" \
+      #         --duration-seconds 900 \
+      #         --query "Credentials" \
+      #         --output "json")
+      #       echo export AWS_ACCESS_KEY_ID="$(echo $aws_sts_credentials | jq -r '.AccessKeyId')" >> $BASH_ENV
+      #       echo export AWS_SECRET_ACCESS_KEY="$(echo $aws_sts_credentials | jq -r '.SecretAccessKey')" >> $BASH_ENV
+      #       echo export AWS_SESSION_TOKEN="$(echo $aws_sts_credentials | jq -r '.SessionToken')" >> $BASH_ENV
+      #       source $BASH_ENV
+      - aws-cli/assume-role-with-web-identity:
+          role-arn: $AWS_ROLE_ARN
+      - run:
+          name: login to ECR
+          command: aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_URL
+      - aws-ecr/build-image:
+          repo: tadashi-fargate-demo
+          tag: '${CIRCLE_SHA1}'
+      - aws-ecr/push-image:
+          repo: tadashi-fargate-demo
+          tag: '${CIRCLE_SHA1}'
