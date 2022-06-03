@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@8.1.2
+  aws-cli: circleci/aws-cli@3.1.1
 
 jobs:
   deploy_fargate:
@@ -11,13 +12,15 @@ jobs:
       image: ubuntu-2004:current
     steps:
       - checkout
-      - aws-ecr/build-and-push-image: # AWS ECR Orb
-          assume-web-identity: true
-          new-profile-name: new-profile
+      - aws-cli/assume-role-with-web-identity:
           role-arn: arn:aws:iam::660990364978:role/tadashi_oidc_fargate
-          platform: linux/arm64
-          repo: tadashi-fargate-demo
-          tag: '${CIRCLE_SHA1}'
+      # - aws-ecr/build-and-push-image: # AWS ECR Orb
+      #     assume-web-identity: true
+      #     new-profile-name: new-profile
+      #     role-arn: arn:aws:iam::660990364978:role/tadashi_oidc_fargate
+      #     platform: linux/arm64
+      #     repo: tadashi-fargate-demo
+      #     tag: '${CIRCLE_SHA1}'
 
 workflows:
   test_and_deploy: 
