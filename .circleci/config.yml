@@ -12,13 +12,11 @@ jobs:
       image: ubuntu-2004:current
     steps:
       - checkout
-      # - aws-cli/assume-role-with-web-identity:
-      #     role-arn: arn:aws:iam::660990364978:role/tadashi_oidc_fargate
       - aws-ecr/build-and-push-image: # AWS ECR Orb
           assume-web-identity: true
           role-arn: arn:aws:iam::660990364978:role/tadashi_oidc_fargate
           platform: linux/arm64
-          repo: tadashi-fargate-demo
+          repo: tadashi-graviton-fargate-demo
           tag: '${CIRCLE_SHA1}'
 
 workflows:
