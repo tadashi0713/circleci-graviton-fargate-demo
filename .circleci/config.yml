@@ -18,7 +18,7 @@ jobs:
           platform: linux/arm64 # ARM
           repo: tadashi-graviton-fargate-demo
           tag: '${CIRCLE_SHA1}'
-     - aws-ecs/update-service:
+      - aws-ecs/update-service:
           cluster-name: tadashi-fargate-graviton-demo-cluster
           container-image-name-updates: 'container=tadashi-fargate-graviton-demo-service,tag=${CIRCLE_SHA1}'
           family: tadashi-fargate-graviton-demo-service
