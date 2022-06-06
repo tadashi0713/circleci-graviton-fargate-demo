@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@8.1.2
-  aws-cli: circleci/aws-cli@3.1.1
+  aws-ecs: circleci/aws-ecs@2.2.1
 
 jobs:
   deploy_fargate:
@@ -15,9 +15,18 @@ jobs:
       - aws-ecr/build-and-push-image: # AWS ECR Orb
           assume-web-identity: true
           role-arn: arn:aws:iam::660990364978:role/tadashi_oidc_fargate
-          platform: linux/arm64
+          platform: linux/arm64 # ARM
           repo: tadashi-graviton-fargate-demo
           tag: '${CIRCLE_SHA1}'
+     - aws-ecs/update-service:
+          cluster-name: tadashi-fargate-graviton-demo-cluster
+          container-image-name-updates: 'container=tadashi-fargate-graviton-demo-service,tag=${CIRCLE_SHA1}'
+          family: tadashi-fargate-graviton-demo-service
+      # - aws-ecs/verify-revision-is-deployed:
+      #     cluster-name: tadashi-fargate-graviton-demo-cluster
+      #     family: tadashi-fargate-graviton-demo-task
+      #     service-name: tadashi-fargate-graviton-demo-service
+      #     task-definition-arn: arn:aws:ecs:ap-northeast-1:660990364978:task-definition/tadashi-fargate-graviton-demo-task:3
 
 workflows:
   test_and_deploy: 
