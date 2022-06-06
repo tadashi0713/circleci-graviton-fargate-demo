@@ -21,7 +21,7 @@ jobs:
       - aws-ecs/update-service:
           cluster-name: tadashi-fargate-graviton-demo-cluster
           container-image-name-updates: 'image-and-tag=tadashi-graviton-fargate-demo:${CIRCLE_SHA1}'
-          family: tadashi-fargate-graviton-demo-service
+          family: tadashi-fargate-graviton-demo-task
       # - aws-ecs/verify-revision-is-deployed:
       #     cluster-name: tadashi-fargate-graviton-demo-cluster
       #     family: tadashi-fargate-graviton-demo-task
