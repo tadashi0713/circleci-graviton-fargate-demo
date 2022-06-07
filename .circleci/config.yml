@@ -1,0 +1,37 @@
+version: 2.1
+
+orbs:
+  aws-ecr: circleci/aws-ecr@8.1.2
+  aws-ecs: circleci/aws-ecs@2.2.1
+
+jobs:
+  deploy_fargate:
+    machine:
+      docker_layer_caching: true # Docker Layer Caching
+      resource_class: arm.large # Resource Class(ARM VM)
+      image: ubuntu-2004:current
+    steps:
+      - checkout
+      - aws-ecr/build-and-push-image: # AWS ECR Orb
+          assume-web-identity: true
+          role-arn: arn:aws:iam::660990364978:role/tadashi_oidc_fargate
+          platform: linux/arm64 # ARM
+          repo: tadashi-graviton-fargate-demo
+          tag: '${CIRCLE_SHA1}'
+      - aws-ecs/update-service:
+          cluster-name: tadashi-fargate-graviton-demo-cluster
+          container-image-name-updates: 'container=tadashi-fargate-graviton-demo-container,tag=${CIRCLE_SHA1}'
+          family: tadashi-fargate-graviton-demo-task
+          service-name: tadashi-fargate-graviton-demo-service
+          verify-revision-is-deployed: true
+
+workflows:
+  test_and_deploy: 
+    jobs:
+      - deploy_fargate:
+          filters:
+            branches:
+              only:
+                - main
+          context:
+            - aws-oidc-fargate
