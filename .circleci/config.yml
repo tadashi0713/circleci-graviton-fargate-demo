@@ -8,8 +8,8 @@ orbs:
 jobs:
   test:
     machine:
-      resource_class: arm.medium # Resource Class(ARM VM)
-      image: ubuntu-2004:202111-01
+      # resource_class: arm.medium # Resource Class(ARM VM)
+      image: ubuntu-2004:current
     steps:
       - checkout
       - node/install:
@@ -35,7 +35,7 @@ jobs:
           container-image-name-updates: 'container=tadashi-fargate-graviton-demo-container,tag=${CIRCLE_SHA1}'
           family: tadashi-fargate-graviton-demo-task
           service-name: tadashi-fargate-graviton-demo-service
-          verify-revision-is-deployed: true
+          # verify-revision-is-deployed: true
 
 workflows:
   test_and_deploy: 
