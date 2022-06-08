@@ -9,7 +9,7 @@ jobs:
   test:
     machine:
       resource_class: arm.medium # Resource Class(ARM VM)
-      image: ubuntu-2004:current
+      image: ubuntu-2004:202111-01
     steps:
       - checkout
       - node/install:
