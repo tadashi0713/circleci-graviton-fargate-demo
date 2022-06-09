@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
   aws-ecr: circleci/aws-ecr@8.1.2
-  aws-ecs: circleci/aws-ecs@dev:alpha
+  aws-ecs: circleci/aws-ecs@dev:e608949a415dbc34133beba792aecb51f4c47a8d
 
 jobs:
   test:
