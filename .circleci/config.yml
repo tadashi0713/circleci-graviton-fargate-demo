@@ -8,14 +8,16 @@ orbs:
 jobs:
   test:
     machine:
-      # resource_class: arm.medium # Resource Class(ARM VM)
+      resource_class: arm.medium # Resource Class(ARM VM)
       image: ubuntu-2004:current
     steps:
       - checkout
       - node/install:
           node-version: '18.3.0'
-      - node/install-packages
-      - run: npm run test
+          install-yarn: true
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: yarn test
 
   deploy_fargate:
     machine:
