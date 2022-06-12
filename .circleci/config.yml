@@ -8,7 +8,7 @@ orbs:
 jobs:
   test:
     machine:
-      # resource_class: arm.medium # Resource Class(ARM VM)
+      resource_class: arm.medium # Resource Class(ARM VM)
       image: ubuntu-2004:current
     steps:
       - checkout
