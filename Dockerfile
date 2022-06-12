@@ -1,7 +1,7 @@
 FROM node:18.3.0-alpine as build-deps
 WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install
+COPY package.json yarn.lock ./
+RUN yarn install --prod --frozen-lockfile
 COPY . ./
 RUN npm run build
 
