@@ -31,10 +31,10 @@ jobs:
           role-arn: arn:aws:iam::660990364978:role/tadashi_oidc_fargate
           platform: linux/arm64 # arm64 Docker image
           repo: tadashi-graviton-fargate-demo
-          tag: '${CIRCLE_SHA1}'
+          tag: '${CIRCLE_SHA1}-arm64'
       - aws-ecs/update-service:
           cluster-name: tadashi-fargate-graviton-demo-cluster
-          container-image-name-updates: 'container=tadashi-fargate-graviton-demo-container,tag=${CIRCLE_SHA1}'
+          container-image-name-updates: 'container=tadashi-fargate-graviton-demo-container,tag=${CIRCLE_SHA1}-arm64'
           family: tadashi-fargate-graviton-demo-task
           service-name: tadashi-fargate-graviton-demo-service
           verify-revision-is-deployed: true
@@ -51,7 +51,7 @@ jobs:
           role-arn: arn:aws:iam::660990364978:role/tadashi_oidc_fargate
           platform: linux/amd64 # amd64 Docker image
           repo: tadashi-graviton-fargate-demo
-          tag: '${CIRCLE_SHA1}'
+          tag: '${CIRCLE_SHA1}-amd64'
 
 workflows:
   test_and_deploy: 
