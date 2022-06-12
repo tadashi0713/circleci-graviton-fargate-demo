@@ -14,8 +14,10 @@ jobs:
       - checkout
       - node/install:
           node-version: '18.3.0'
-      - node/install-packages
-      - run: npm run test
+          install-yarn: true
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: yarn test
 
   deploy_fargate:
     machine:
