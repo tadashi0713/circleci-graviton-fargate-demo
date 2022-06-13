@@ -17,7 +17,9 @@ jobs:
           install-yarn: true
       - node/install-packages:
           pkg-manager: yarn
-      - run: yarn test
+      - run: yarn test:ci
+      - store_test_results:
+          path: junit.xml
 
   deploy_fargate:
     machine:
