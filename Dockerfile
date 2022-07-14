@@ -1,4 +1,4 @@
-FROM node:18.5.0-alpine as build-deps
+FROM node:18.6.0-alpine as build-deps
 WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 RUN yarn install --prod --frozen-lockfile
