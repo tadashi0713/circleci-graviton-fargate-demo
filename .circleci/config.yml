@@ -17,7 +17,7 @@ jobs:
           path: results.xml
 
   e2e_test_parallel:
-    parallelism: 10 # Parallelism
+    parallelism: 5 # Parallelism
     docker:
       - image: mcr.microsoft.com/playwright:v1.25.1-focal
     steps:

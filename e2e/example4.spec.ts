@@ -8,5 +8,7 @@ test('Example 4', async ({ page }) => {
 
   await button.click();
 
+  await page.waitForTimeout(4000)
+
   await expect(text).toBeVisible();
 });
