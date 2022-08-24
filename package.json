@@ -22,7 +22,7 @@
     "test": "react-scripts test",
     "test:ci": "react-scripts test --reporters=jest-junit --reporters=default --watchAll=false --coverage --ci --runInBand",
     "eject": "react-scripts eject",
-    "e2e": "start-server-and-test 'npm run start' http://localhost:3000 \"playwright test $npm_config_file --project=chromium\""
+    "e2e": "start-server-and-test 'npm run start' http://localhost:3000 \"playwright test ${npm_config_file} --project=chromium\""
   },
   "eslintConfig": {
     "extends": [
