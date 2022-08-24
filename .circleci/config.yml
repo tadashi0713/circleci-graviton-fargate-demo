@@ -11,9 +11,8 @@ jobs:
       - image: mcr.microsoft.com/playwright:v1.25.0-focal
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
-      - run: yarn e2e
+      - node/install-packages
+      - run: npm run e2e
       - store_test_results:
           path: results.xml
 
@@ -23,11 +22,10 @@ jobs:
       - image: mcr.microsoft.com/playwright:v1.25.0-focal
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - node/install-packages
       - run: | 
           TEST_FILES=$(circleci tests glob "e2e/*.spec.ts" | circleci tests split --split-by=timings)
-          yarn e2e -file=$TEST_FILES
+          npm run e2e -file=$TEST_FILES
       - store_test_results:
           path: results.xml
 
@@ -56,7 +54,6 @@ workflows:
     jobs:
       - node/test:
           name: unit_test
-          pkg-manager: yarn
       - e2e_test:
           requires:
             - unit_test

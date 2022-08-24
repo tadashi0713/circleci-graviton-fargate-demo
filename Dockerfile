@@ -1,9 +1,9 @@
 FROM node:18.7.0-alpine as build-deps
 WORKDIR /usr/src/app
-COPY package.json yarn.lock ./
-RUN yarn install --prod --frozen-lockfile
+COPY package*.json .
+RUN npm ci
 COPY . ./
-RUN yarn build
+RUN npm run build
 
 FROM nginx:alpine
 COPY --from=build-deps /usr/src/app/build /usr/share/nginx/html
