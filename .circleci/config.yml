@@ -11,7 +11,8 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages:
+          pkg-manager: yarn
       - browser-tools/install-chrome # Install Chrome
       - run: yarn e2e
       - store_test_results:
