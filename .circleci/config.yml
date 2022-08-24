@@ -17,6 +17,20 @@ jobs:
       - store_test_results:
           path: results.xml
 
+  e2e_test_parallel:
+    parallelism: 10 # Parallelism
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.25.0-focal
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: | 
+          TEST_FILES=$(circleci tests glob "e2e/*.spec.ts" | circleci tests split --split-by=timings)
+          yarn e2e -file=$TEST_FILES
+      - store_test_results:
+          path: results.xml
+
   deploy_fargate:
     machine:
       docker_layer_caching: true # Docker Layer Caching
@@ -46,6 +60,9 @@ workflows:
       - e2e_test:
           requires:
             - unit_test
+      - e2e_test_parallel:
+          requires:
+            - unit_test
       - deploy_fargate:
           filters:
             branches:
@@ -53,3 +70,6 @@ workflows:
                 - main
           context:
             - aws-oidc-fargate
+          requires:
+            - e2e_test
+            - e2e_test_parallel
