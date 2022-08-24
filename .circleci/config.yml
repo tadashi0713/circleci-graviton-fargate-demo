@@ -6,21 +6,6 @@ orbs:
   aws-ecs: circleci/aws-ecs@2.3.0
 
 jobs:
-  test:
-    machine:
-      resource_class: arm.large # Resource Class(ARM VM)
-      image: ubuntu-2004:current
-    steps:
-      - checkout
-      - node/install:
-          node-version: '18.3.0'
-          install-yarn: true
-      - node/install-packages:
-          pkg-manager: yarn
-      - run: yarn test:ci
-      - store_test_results:
-          path: junit.xml
-
   deploy_fargate:
     machine:
       docker_layer_caching: true # Docker Layer Caching
@@ -41,32 +26,12 @@ jobs:
           service-name: tadashi-fargate-graviton-demo-service
           verify-revision-is-deployed: true
 
-  build_amd64_docker_image:
-    machine:
-      docker_layer_caching: true # Docker Layer Caching
-      resource_class: large # Resource Class(x86_64 VM)
-      image: ubuntu-2004:current
-    steps:
-      - checkout
-      - aws-ecr/build-and-push-image: # AWS ECR Orb
-          assume-web-identity: true
-          role-arn: arn:aws:iam::660990364978:role/tadashi_oidc_fargate
-          platform: linux/amd64 # amd64 Docker image
-          repo: tadashi-graviton-fargate-demo
-          tag: '${CIRCLE_SHA1}-amd64'
-
 workflows:
   test_and_deploy: 
     jobs:
-      - test
+      - node/test:
+          pkg-manager: yarn
       - deploy_fargate:
-          filters:
-            branches:
-              only:
-                - main
-          context:
-            - aws-oidc-fargate
-      - build_amd64_docker_image:
           filters:
             branches:
               only:
