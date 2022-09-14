@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@playwright/test": "1.25.2",
-    "autoprefixer": "10.4.10",
+    "autoprefixer": "10.4.11",
     "jest-junit": "14.0.1",
     "postcss": "8.4.16",
     "start-server-and-test": "1.14.0",
