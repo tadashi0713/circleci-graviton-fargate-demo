@@ -1,4 +1,4 @@
-FROM node:18.9.1-alpine as build-deps
+FROM node:18.10.0-alpine as build-deps
 WORKDIR /usr/src/app
 COPY package*.json .
 RUN npm ci
