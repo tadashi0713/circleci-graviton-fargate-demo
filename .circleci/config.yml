@@ -67,6 +67,3 @@ workflows:
                 - main
           context:
             - aws-oidc-fargate
-          requires:
-            - e2e_test
-            - e2e_test_parallel
