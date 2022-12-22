@@ -17,15 +17,15 @@ jobs:
           path: results.xml
 
   e2e_test_parallel:
-    parallelism: 10 # Parallelism
+    parallelism: 2 # Parallelism
     docker:
       - image: mcr.microsoft.com/playwright:v1.25.2-focal
     steps:
       - checkout
       - node/install-packages
       - run: | 
-          TEST_FILES=$(circleci tests glob "e2e/*.spec.ts" | circleci tests split --split-by=timings)
-          npm run e2e -file=$TEST_FILES
+          TEST_FILES=$(circleci tests glob "e2e/*.spec.ts")
+          echo $TEST_FILES | circleci tests run --command='xargs npm run e2e' --batch-count=2 --test-results-path=results.xml --fail-fast --split-by=timings
       - store_test_results:
           path: results.xml
 
