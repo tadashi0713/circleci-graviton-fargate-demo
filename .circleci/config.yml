@@ -12,7 +12,9 @@ jobs:
     steps:
       - checkout
       - node/install-packages
-      - run: npx playwright test
+      - run: | 
+          TESTFILES=$(circleci tests glob "e2e/*.spec.ts")
+          echo $TESTFILES | circleci tests run --command="xargs npx playwright test" --verbose
       - store_test_results:
           path: results.xml
 
