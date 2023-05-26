@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   node: circleci/node@5.1.0
   aws-ecr: circleci/aws-ecr@8.2.1
-  aws-ecs: circleci/aws-ecs@2.3.0
+  aws-ecs: circleci/aws-ecs@3.2.0
 
 jobs:
   e2e_test:
@@ -43,7 +43,7 @@ jobs:
           repo: tadashi-graviton-fargate-demo
           tag: '${CIRCLE_SHA1}-arm64'
       - aws-ecs/update-service:
-          cluster-name: tadashi-fargate-graviton-demo-cluster
+          cluster: tadashi-fargate-graviton-demo-cluster
           container-image-name-updates: 'container=tadashi-fargate-graviton-demo-container,tag=${CIRCLE_SHA1}-arm64'
           family: tadashi-fargate-graviton-demo-task
           service-name: tadashi-fargate-graviton-demo-service
