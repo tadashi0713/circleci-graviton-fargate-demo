@@ -14,6 +14,7 @@ jobs:
       - node/install-packages
       - run: | 
           TESTFILES=$(circleci tests glob "e2e/*.spec.ts")
+          echo $TESTFILES
           echo $TESTFILES | circleci tests run --command="xargs npx playwright test" --verbose
       - store_test_results:
           path: results.xml
@@ -27,6 +28,7 @@ jobs:
       - node/install-packages
       - run: | 
           TESTFILES=$(circleci tests glob "e2e/*.spec.ts")
+          echo $TESTFILES
           echo $TESTFILES | circleci tests run --command="xargs npx playwright test" --verbose --split-by=timings
       - store_test_results:
           path: results.xml
