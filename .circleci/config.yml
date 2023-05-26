@@ -27,7 +27,7 @@ jobs:
           npm run start &
             TESTFILES=$(circleci tests glob "e2e/*.spec.ts")
             echo $TESTFILES
-            echo $TESTFILES | circleci tests run --command="xargs npm playwright --project=chromium" --verbose --split-by=timings
+            echo $TESTFILES | circleci tests run --command="xargs npx playwright test --project=chromium" --verbose --split-by=timings
       - store_test_results:
           path: results.xml
 
