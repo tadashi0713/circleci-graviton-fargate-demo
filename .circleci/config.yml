@@ -24,10 +24,8 @@ jobs:
       - checkout
       - node/install-packages
       - run: | 
-          npm run start &
-            TESTFILES=$(circleci tests glob "e2e/*.spec.ts")
-            echo $TESTFILES
-            echo $TESTFILES | circleci tests run --command="xargs npx playwright test --project=chromium" --verbose --split-by=timings
+          TESTFILES=$(circleci tests glob "e2e/*.spec.ts")
+          echo $TESTFILES | circleci tests run --command="xargs npx start-server-and-test 'npm run start' http://localhost:3000 'npx playwright test --project=chromium'" --verbose --split-by=timings
       - store_test_results:
           path: results.xml
 
