@@ -24,10 +24,11 @@ jobs:
       - checkout
       - node/install-packages
       - run: | 
+          mkdir test-results
           TESTFILES=$(circleci tests glob "e2e/*.spec.ts")
           echo $TESTFILES | circleci tests run --command="xargs npx playwright test" --verbose --split-by=timings
       - store_test_results:
-          path: results.xml
+          path: test-results
 
   deploy_fargate:
     machine:
