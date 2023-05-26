@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages
-      - run: npx playwright test || exit 0
+      - run: npx playwright test
       - store_test_results:
           path: results.xml
 
