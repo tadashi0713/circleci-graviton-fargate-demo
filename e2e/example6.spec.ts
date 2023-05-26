@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('Example 6', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+  await page.goto('/');
 
   const button = page.locator('data-testid=Button');
   const text = page.locator('data-testid=Text');
