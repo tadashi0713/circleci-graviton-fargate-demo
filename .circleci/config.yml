@@ -59,13 +59,11 @@ workflows:
       - e2e_test:
           requires:
             - unit_test
-      - e2e_test_parallel:
-          requires:
-            - unit_test
+      # - e2e_test_parallel:
+      #     requires:
+      #       - unit_test
       - deploy_fargate:
-          filters:
-            branches:
-              only:
-                - main
+          requires:
+            - e2e_test
           context:
             - aws-oidc-fargate
