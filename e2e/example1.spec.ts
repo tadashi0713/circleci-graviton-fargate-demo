@@ -10,9 +10,5 @@ test('Example 1', async ({ page }) => {
 
   await page.waitForTimeout(1000)
 
-  if(Math.random() < 0.5) {
-    await expect(text).toBeVisible();
-  } else {
-    await !expect(text).toBeVisible();
-  }
+  await expect(text).toBeVisible();
 });
